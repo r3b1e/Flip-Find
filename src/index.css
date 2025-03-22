@@ -1,0 +1,405 @@
+* {
+  margin: 0;
+}
+
+:root {
+  --dark-primary: #1e1e2f;
+  --light-primary: #f5f7fa;
+  --light-secondary: #dbd1da;
+  --accent: #9194c6;
+  --btn-disabled: #F6C794;
+}
+
+/*===========================
+Layout
+============================*/
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark-primary);
+  color: var(--light-primary);
+  text-align: center;
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+  height: 100%;
+  min-height: 100vh;
+  padding: 2em;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  background-color: var(--light-secondary);
+  color: var(--dark-primary);
+  border-radius: 1em;
+  padding: 1.5em;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper--accent {
+  padding: 2em 3em;
+  border: 1px solid var(--dark-primary);
+  box-shadow: 0 0 10px 2px var(--accent);
+}
+
+/*===========================
+Typography
+============================*/
+h1 {
+  color: var(--accent);
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.p--large {
+  font-size: 1.5rem;
+}
+
+.p--regular {
+  font-size: 1.125em;
+}
+
+/*===========================
+Buttons
+============================*/
+.btn {
+  background-color: var(--light-primary);
+  color: var(--dark-primary);
+  font-family: inherit;
+  border: 2px solid var(--dark-primary);
+  border-radius: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn--text {
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  font-size: 1.25rem;
+  width: max-content;
+  margin: 0 auto;
+  padding: 0.5em 1.25em;
+  border-radius: 1em;
+}
+
+.btn--emoji {
+  width: 100%;
+  height: 100px;
+  font-size: 3rem;
+  border: 2px solid var(--light-primary);
+  border-radius: 1em;
+  transition: all 0.3s ease;
+}
+
+.btn--text:hover,
+.btn--text:focus {
+  background-color: var(--light-primary);
+  color: var(--accent);
+  box-shadow: 0 0 10px 1px var(--accent);
+}
+
+.btn--emoji:hover,
+.btn--emoji:focus {
+  background-color: var(--accent);
+  transform: scale(1.05);
+}
+
+/*===========================
+Form
+============================*/
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  text-align: start;
+}
+
+form {
+  gap: 2em;
+  font-size: 1.125rem;
+  padding: 1.5em;
+  border-radius: 1em;
+  background-color: var(--light-primary);
+  box-shadow: 0 0 5px 1px var(--dark-primary);
+}
+
+.form__inner-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+select {
+  background-color: var(--dark-primary);
+  color: var(--light-primary);
+  font-family: inherit;
+  padding: 0.5em;
+  border: 1px solid var(--dark-primary);
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+select:hover,
+select:focus {
+  background-color: var(--light-primary);
+  color: var(--dark-primary);
+  box-shadow: 0 0 5px 1px var(--accent);
+}
+/*===========================
+Game - Updated Flip Logic
+============================*/
+.card-item {
+  list-style: none;
+  width: 140px;
+  height: 180px;
+  perspective: 1000px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Front and Back for Flip Effect */
+.btn--emoji__front,
+.btn--emoji__back--selected {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 0.75em;
+  overflow: hidden;
+}
+
+/* Front of the card */
+.btn--emoji__front {
+  background-color: var(--light-primary);
+  border: 2px solid var(--dark-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+}
+
+/* Image inside the front */
+.btn--emoji__front img {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 0.5em;
+}
+
+/* Back of the card */
+.btn--emoji__back--selected {
+  background-color: var(--accent);
+  transform: rotateY(180deg);
+  border: 2px solid var(--dark-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Selected and Matched Cards */
+.card-item--selected {
+  transform: rotateY(180deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Make back visible immediately after selecting */
+.card-item--selected .btn--emoji__back--selected {
+  backface-visibility: visible;
+}
+
+/* Matched state */
+.card-item--matched {
+  transform: rotateY(180deg);
+}
+
+.card-item--matched .btn--emoji__back--matched {
+  backface-visibility: unset;
+  background-color: var(--btn-disabled);
+  border: 2px solid var(--btn-disabled);
+  cursor: not-allowed;
+}
+
+/*===========================
+/* Fixed Hover Issue
+============================*/
+.card-item--selected:hover,
+.card-item--matched:hover {
+  transform: rotateY(180deg);
+}
+
+/*===========================
+Improved Animation
+============================*/
+.card-item--selected {
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.card-item--matched .btn--emoji__back--matched {
+  backface-visibility: unset;
+}
+
+/* Animation for card flip */
+.card-item--selected .btn--emoji__back--selected {
+  box-shadow: 0 0 8px 2px var(--accent);
+  border: 2px solid var(--accent);
+} */
+
+/*===========================
+Screen reader only
+============================*/
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}
+
+/*===========================
+Media queries
+============================*/
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+
+  .btn--emoji {
+    font-size: 4rem;
+    height: 120px;
+  }
+
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+
+  .btn--emoji {
+    font-size: 4.5rem;
+    height: 140px;
+  }
+
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+/*===========================
+Game - Horizontal Card Layout
+============================*/
+.card-container {
+  padding-left: 0;
+  display: flex; /* Changed to flex for horizontal layout */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  gap: 1.5em; /* Space between cards */
+  width: 100%;
+  flex-wrap: wrap; /* Wraps to the next line if cards overflow */
+  margin-top: 2em;
+}
+
+/* Card Item */
+.card-item {
+  list-style: none;
+  width: 140px;
+  height: 180px;
+  perspective: 1000px;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Front and Back for Flip Effect */
+.btn--emoji__front,
+.btn--emoji__back--selected {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 0.75em;
+  overflow: hidden;
+}
+
+/* Front of the card */
+.btn--emoji__front {
+  background-color: var(--light-primary);
+  border: 2px solid var(--dark-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+}
+
+/* Image inside the front */
+.btn--emoji__front img {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 0.5em;
+}
+
+/* Back of the card */
+.btn--emoji__back--selected {
+  background-color: var(--accent);
+  transform: rotateY(180deg);
+  border: 2px solid var(--dark-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Selected and Matched Cards */
+.card-item--selected {
+  transform: rotateY(180deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Make back visible immediately after selecting */
+.card-item--selected .btn--emoji__back--selected {
+  backface-visibility: visible;
+}
+
+/* Matched state */
+.card-item--matched {
+  transform: rotateY(180deg);
+}
+
+.card-item--matched .btn--emoji__back--matched {
+  backface-visibility: unset;
+  background-color: var(--btn-disabled);
+  border: 2px solid var(--btn-disabled);
+  cursor: not-allowed;
+}
+
+/*===========================
+Responsive Media Queries
+============================*/
+@media (max-width: 768px) {
+  .card-container {
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  .card-item {
+    width: 120px;
+    height: 160px;
+  }
+}
